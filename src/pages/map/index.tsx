@@ -1,5 +1,5 @@
 // ** MUI Imports
-import {MapComponent} from "../../views/map/map";
+import {MapComponent} from "../../views/map";
 import {useEffect, useState} from "react";
 
 const Map = () => {

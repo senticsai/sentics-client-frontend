@@ -1,10 +1,11 @@
-import React, {Suspense, useEffect} from 'react'
-import {Canvas, useFrame, useThree} from '@react-three/fiber'
-import {DoubleSide, Shape} from 'three'
-import {Bounds, PresentationControls} from "@react-three/drei";
-import {Button} from "@mui/material";
+import {DoubleSide, Shape} from "three";
+import {useThree} from "@react-three/fiber";
+import React, {useEffect} from "react";
 import Entities from "./entities";
+import {getMiddlePoint} from "../../helpers/getMiddlePoint";
+import {getSize} from "../../helpers/getSize";
 
+// TODO get this from api in the future
 const mapPoints = [
   [1.42, 0.0],
   [1.42, 53.6],
@@ -24,7 +25,6 @@ const mapPoints = [
 function Map({entities, dimension}: { entities: EntitiesPayload, dimension: '2d' | '3d' }) {
   const shape = new Shape();
   const {camera} = useThree();
-  const middlePoint = getMiddlePoint(mapPoints);
 
 
   useEffect(() => {
@@ -76,45 +76,4 @@ function Map({entities, dimension}: { entities: EntitiesPayload, dimension: '2d'
   )
 }
 
-function getSize(points) {
-  const x = points.map(point => point[0]);
-  const y = points.map(point => point[1]);
-
-  return [Math.max(...x) - Math.min(...x), Math.max(...y) - Math.min(...y)];
-}
-
-function getMiddlePoint(points) {
-  const x = points.map(point => point[0]);
-  const y = points.map(point => point[1]);
-
-  return [(Math.max(...x) + Math.min(...x)) / 2, (Math.max(...y) + Math.min(...y)) / 2];
-}
-
-export const MapComponent = ({positions}: { positions: EntitiesPayload }) => {
-  const [dimension, setDimension] = React.useState<'2d' | '3d'>("2d");
-
-  function switchDimensions() {
-    setDimension(dimension === '2d' ? '3d' : '2d');
-  }
-
-  const middlePoint = getMiddlePoint(mapPoints);
-
-
-  return (
-    <>
-      <Canvas flat camera={{zoom: 4, position: [0, 150, 0], rotation: [-Math.PI / 2, 0, Math.PI / 2]}}>
-        <PresentationControls enabled={dimension === '3d'} global zoom={2}>
-          <Suspense fallback={null}>
-            <Bounds clip>
-              <Map dimension={dimension} entities={positions}/>
-            </Bounds>
-          </Suspense>
-          <ambientLight/>
-        </PresentationControls>
-
-      </Canvas>
-      <Button variant="outlined" onClick={switchDimensions}
-              className="!absolute bottom-16 right-16 bg-black z-10">{dimension}</Button>
-    </>
-  )
-}
+export default Map;
