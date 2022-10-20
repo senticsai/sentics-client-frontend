@@ -15,8 +15,8 @@ const navigation = (): HorizontalNavItemsType => {
     },
     {
       icon: MapMarkerOutline,
-      title: 'Live Map',
-      path: '/live'
+      title: 'Map',
+      path: '/map'
     },
     {
       icon: ChartLine,

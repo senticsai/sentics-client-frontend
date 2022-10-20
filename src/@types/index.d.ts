@@ -1,7 +1,7 @@
 export {};
 
 declare global {
-  interface PositionPayload {
+  interface EntitiesPayload {
     human: { [key: string]: Position };
     vehicle: { [key: string]: Position };
   }

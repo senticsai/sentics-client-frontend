@@ -16,8 +16,8 @@ const navigation = (): VerticalNavItemsType => {
     },
     {
       icon: MapMarkerOutline,
-      title: 'Live Map',
-      path: '/live'
+      title: 'Map',
+      path: '/map'
     },
     {
       icon: ChartLine,
