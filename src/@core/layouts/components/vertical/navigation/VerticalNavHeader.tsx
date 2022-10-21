@@ -15,7 +15,6 @@ import Close from 'mdi-material-ui/Close'
 
 // ** Type Import
 import {Settings} from 'src/@core/context/settingsContext'
-import {useSettings} from "../../../../hooks/useSettings";
 
 interface Props {
   hidden: boolean

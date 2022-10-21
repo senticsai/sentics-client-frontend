@@ -17,4 +17,15 @@ declare global {
     kind: string
     id: string
   }
+
+  interface AnalyticsQuery {
+    analytics: 'safety' | 'efficiency';
+    metric: 'safety score' | 'number of objects' | 'distance';
+    aggregation: 'none' | 'avg' | 'min' | 'max';
+    classes: 'human' | 'vehicle'[];
+    minThreshold: number;
+    maxThreshold: number;
+    startDateTime: string;
+    endDateTime: string;
+  }
 }

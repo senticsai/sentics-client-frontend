@@ -1,3 +1,3 @@
 import HttpService from "./HttpService";
 
-export const getStats = () => HttpService.Get("/stats");
+export const getDetailedAnalytics = (query: AnalyticsQuery) => HttpService.Post("/analytics/detailed", query);

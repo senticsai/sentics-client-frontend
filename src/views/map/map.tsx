@@ -22,27 +22,27 @@ const mapPoints = [
   [1.42, 0.0]
 ];
 
-function Map({entities, dimension}: { entities: EntitiesPayload, dimension: '2d' | '3d' }) {
+function Map({entities, perspective}: { entities: EntitiesPayload, perspective: '2d' | '3d' }) {
   const shape = new Shape();
   const {camera} = useThree();
 
 
   useEffect(() => {
-    if (dimension === '2d') {
+    if (perspective === '2d') {
       camera.position.set(0, 150, 0);
       camera.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
       camera.zoom = 4;
 
     }
 
-    if (dimension === '3d') {
+    if (perspective === '3d') {
       camera.position.set(0, 0, 150);
       camera.rotation.set(0, 0, 0);
       camera.zoom = 4;
       camera.lookAt(0, 0, 0);
 
     }
-  }, [dimension])
+  }, [perspective])
 
   mapPoints.reverse();
 

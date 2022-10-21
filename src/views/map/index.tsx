@@ -8,7 +8,7 @@ import Map from './map';
 export const MapComponent = ({positions}: { positions: EntitiesPayload }) => {
   const [dimension, setDimension] = React.useState<'2d' | '3d'>("2d");
 
-  function switchDimensions() {
+  function switchPerspective() {
     setDimension(dimension === '2d' ? '3d' : '2d');
   }
 
@@ -19,14 +19,14 @@ export const MapComponent = ({positions}: { positions: EntitiesPayload }) => {
         <PresentationControls enabled={dimension === '3d'} global zoom={2}>
           <Suspense fallback={null}>
             <Bounds clip>
-              <Map dimension={dimension} entities={positions}/>
+              <Map perspective={dimension} entities={positions}/>
             </Bounds>
           </Suspense>
           <ambientLight/>
         </PresentationControls>
 
       </Canvas>
-      <Button variant="outlined" onClick={switchDimensions}
+      <Button variant="outlined" onClick={switchPerspective}
               className="!absolute bottom-16 right-16 bg-black z-10">{dimension}</Button>
     </>
   )

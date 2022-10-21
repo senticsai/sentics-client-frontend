@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4000",
     "build": "next build",
     "start": "next start",
     "export": "next export",
@@ -34,6 +34,7 @@
     "clipboard-copy": "4.0.1",
     "clsx": "1.1.1",
     "date-fns": "2.27.0",
+    "dayjs": "^1.11.5",
     "draft-js": "0.11.7",
     "i18next": "21.7.1",
     "i18next-browser-languagedetector": "^6.1.8",
