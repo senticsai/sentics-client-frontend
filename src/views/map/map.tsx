@@ -2,6 +2,7 @@ import { DoubleSide, Shape } from 'three'
 import React from 'react'
 import Entities from './entities'
 import { getSize } from '../../helpers/getSize'
+import * as THREE from "three";
 
 // TODO get this from api in the future
 const mapPoints = [
@@ -20,18 +21,9 @@ const mapPoints = [
   [1.42, 0.0]
 ]
 
-function Map({ entities, perspective }: { entities: EntitiesPayload; perspective: '2d' | '3d' }) {
-  const shape = new Shape()
+function Map({ entities }: { entities: EntitiesPayload }) {
+  const shape = new Shape(mapPoints.map(([x, y]) => new THREE.Vector2(x, y)))
 
-  mapPoints.reverse()
-
-  mapPoints.forEach((point, index) => {
-    if (index === 0) {
-      shape.moveTo(point[0], point[1])
-    } else {
-      shape.lineTo(point[0], point[1])
-    }
-  })
 
   const extrudeSettings = {
     curveSegments: 1,
@@ -44,14 +36,8 @@ function Map({ entities, perspective }: { entities: EntitiesPayload; perspective
 
   return (
     <>
-      {/* Reference for coordinate
-      <mesh>
-        <sphereGeometry args={[1, 32, 32]} />
-        <meshStandardMaterial color='#ff0000' />
-      </mesh>
-       */}
-      <mesh position={[-x / 2, 0, -y / 2]}>
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
+      <mesh rotation={[ 0, Math.PI / 2, 0]}>
+        <mesh rotation={[ Math.PI / 2, 0, 0]} position={[-(x / 2), 0,-(y/2)]}>
           <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]} />
           <meshStandardMaterial side={DoubleSide} />
         </mesh>
