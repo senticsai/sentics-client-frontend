@@ -6,7 +6,7 @@ const Box = (props: BoxProps) => {
   return (
     <MuiBox
       {...props}
-      component="div"
+      component={props.component === 'span' ? 'span' : 'div'}
     />
   )
 }
