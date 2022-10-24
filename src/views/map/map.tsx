@@ -4,6 +4,9 @@ import React, {useEffect} from "react";
 import Entities from "./entities";
 import {getMiddlePoint} from "../../helpers/getMiddlePoint";
 import {getSize} from "../../helpers/getSize";
+import {useLoader} from '@react-three/fiber'
+import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
+
 
 // TODO get this from api in the future
 const mapPoints = [
@@ -25,7 +28,7 @@ const mapPoints = [
 function Map({entities, perspective}: { entities: EntitiesPayload, perspective: '2d' | '3d' }) {
   const shape = new Shape();
   const {camera} = useThree();
-
+  const gltf = useLoader(GLTFLoader, '../models/map.gltf')
 
   useEffect(() => {
     if (perspective === '2d') {
@@ -65,13 +68,24 @@ function Map({entities, perspective}: { entities: EntitiesPayload, perspective: 
 
   return (
     <>
-      <mesh position={[-x/2, 0, -y/2]}>
-        <mesh rotation={[Math.PI / 2, 0, 0,]}>
-          <extrudeBufferGeometry attach="geometry" args={[shape, extrudeSettings]}/>
-          <meshStandardMaterial side={DoubleSide}/>
+      {/*{perspective === '2d' ? (*/}
+        <mesh position={[-x / 2, 0, -y / 2]}>
+          <mesh rotation={[Math.PI / 2, 0, 0,]}>
+            <extrudeBufferGeometry attach="geometry" args={[shape, extrudeSettings]}/>
+            <meshStandardMaterial side={DoubleSide}/>
+          </mesh>
+          <Entities entities={entities}/>
+
         </mesh>
-        <Entities entities={entities}/>
-      </mesh>
+      {/*) : (*/}
+      {/*  <mesh>*/}
+      {/*    <primitive position={[-x / 2, 0, 0]} object={gltf.scene}/>*/}
+      {/*    <mesh position={[-x / 2, 0, -y / 2]} >*/}
+      {/*      <Entities entities={entities}/>*/}
+      {/*    </mesh>*/}
+      {/*  </mesh>*/}
+      {/*)*/}
+      {/*}*/}
     </>
   )
 }

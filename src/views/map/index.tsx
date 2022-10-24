@@ -16,6 +16,8 @@ export const MapComponent = ({positions}: { positions: EntitiesPayload }) => {
   return (
     <>
       <Canvas flat camera={{zoom: 4, position: [0, 150, 0], rotation: [-Math.PI / 2, 0, Math.PI / 2]}}>
+        // TODO Orbit Controls
+
         <PresentationControls enabled={dimension === '3d'} global zoom={2}>
           <Suspense fallback={null}>
             <Bounds clip>
