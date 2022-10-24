@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import IconButton from '@mui/material/IconButton'
-import Box, {BoxProps} from '@mui/material/Box'
+import Box, {BoxProps} from '@components/mui/Box'
 import {styled, useTheme} from '@mui/material/styles'
 import Typography, {TypographyProps} from '@mui/material/Typography'
 
