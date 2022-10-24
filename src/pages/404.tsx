@@ -8,7 +8,7 @@ import Link from 'next/link'
 import Button from '@mui/material/Button'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { BoxProps } from '@components/mui/Box'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'

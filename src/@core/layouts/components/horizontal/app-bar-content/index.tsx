@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 import Link from 'next/link'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Typography from '@mui/material/Typography'
 import { styled, useTheme } from '@mui/material/styles'
 

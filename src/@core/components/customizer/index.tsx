@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton'
 import InputLabel from '@mui/material/InputLabel'
 import RadioGroup from '@mui/material/RadioGroup'
 import Typography from '@mui/material/Typography'
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { BoxProps } from '@components/mui/Box'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import MuiDrawer, { DrawerProps } from '@mui/material/Drawer'
 
@@ -70,7 +70,7 @@ const ColorBox = styled(Box)<BoxProps>(({ theme }) => ({
   justifyContent: 'center',
   margin: theme.spacing(0, 1.5),
   color: theme.palette.common.white,
-  transition: 'box-shadow .25s ease'
+  transition: 'Box-shadow .25s ease'
 }))
 
 const Customizer = () => {

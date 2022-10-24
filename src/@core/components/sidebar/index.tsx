@@ -3,7 +3,7 @@ import { Fragment, useEffect } from 'react'
 
 // ** MUI Imports
 import Backdrop from '@mui/material/Backdrop'
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { BoxProps } from '@components/mui/Box'
 
 // ** Types
 import { SidebarType } from './type'

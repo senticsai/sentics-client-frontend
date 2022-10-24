@@ -1,6 +1,6 @@
 // ** MUI imports
 import { styled } from '@mui/material/styles'
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { BoxProps } from '@components/mui/Box'
 
 // ** Hooks
 import { useSettings } from 'src/@core/hooks/useSettings'

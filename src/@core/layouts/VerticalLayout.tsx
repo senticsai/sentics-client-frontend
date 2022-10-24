@@ -4,7 +4,7 @@ import { useState } from 'react'
 // ** MUI Imports
 import Fab from '@mui/material/Fab'
 import { styled } from '@mui/material/styles'
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { BoxProps } from '@components/mui/Box'
 
 // ** Icons Imports
 import ArrowUp from 'mdi-material-ui/ArrowUp'

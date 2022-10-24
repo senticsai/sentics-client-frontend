@@ -2,7 +2,7 @@
 import { useState, SyntheticEvent, Fragment, ReactNode } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import { styled, Theme } from '@mui/material/styles'

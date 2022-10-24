@@ -1,5 +1,5 @@
 // ** MUI Import
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import CircularProgress from '@mui/material/CircularProgress'
 import { useSettings } from 'src/@core/hooks/useSettings'
 

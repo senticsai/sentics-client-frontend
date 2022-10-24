@@ -28,6 +28,12 @@
       "apexcharts/*": [
         "./node_modules/apexcharts-clevision/*"
       ],
+      "@core/*": [
+        "./src/@core/*"
+      ],
+      "@components/*": [
+        "./src/@core/components/*"
+      ],
     }
   },
   "include": [

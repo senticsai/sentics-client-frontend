@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Chip from '@mui/material/Chip'
 import List from '@mui/material/List'
 import { styled } from '@mui/material/styles'

@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'

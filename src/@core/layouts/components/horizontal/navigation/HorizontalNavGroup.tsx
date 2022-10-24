@@ -5,7 +5,7 @@ import {SyntheticEvent, useState, useEffect, Fragment} from 'react'
 import {useRouter} from 'next/router'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Chip from '@mui/material/Chip'
 import Fade from '@mui/material/Fade'
 import List from '@mui/material/List'

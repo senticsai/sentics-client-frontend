@@ -5,7 +5,7 @@ import {useState, SyntheticEvent, Fragment} from 'react'
 import {useRouter} from 'next/router'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
 import Avatar from '@mui/material/Avatar'

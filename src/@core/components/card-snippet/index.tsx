@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Card from '@mui/material/Card'
 import Tooltip from '@mui/material/Tooltip'
 import Divider from '@mui/material/Divider'

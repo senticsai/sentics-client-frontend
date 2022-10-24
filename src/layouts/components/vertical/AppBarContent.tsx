@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import IconButton from '@mui/material/IconButton'
 
 // ** Icons Imports

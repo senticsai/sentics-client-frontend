@@ -3,7 +3,7 @@ import { ReactNode, useRef, useState } from 'react'
 
 // ** MUI Import
 import List from '@mui/material/List'
-import Box, { BoxProps } from '@mui/material/Box'
+import Box, { BoxProps } from '@components/mui/Box'
 import { styled, useTheme } from '@mui/material/styles'
 
 // ** Third Party Components

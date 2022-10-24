@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Link from '@mui/material/Link'
 import { Theme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'

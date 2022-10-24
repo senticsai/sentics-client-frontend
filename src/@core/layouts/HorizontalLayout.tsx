@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
+import Box from '@components/mui/Box'
 import Fab from '@mui/material/Fab'
 import AppBar from '@mui/material/AppBar'
 import {styled} from '@mui/material/styles'
@@ -87,7 +87,7 @@ const HorizontalLayout = (props: LayoutProps) => {
           ...(appBar === 'static' && {zIndex: 13}),
           backgroundColor: theme => theme.palette.background.paper,
           ...(skin === 'bordered' && {borderBottom: theme => `1px solid ${theme.palette.divider}`}),
-          transition: 'border-bottom 0.2s ease-in-out, backdrop-filter .25s ease-in-out, box-shadow .25s ease-in-out',
+          transition: 'border-bottom 0.2s ease-in-out, backdrop-filter .25s ease-in-out, Box-shadow .25s ease-in-out',
           ...(appBar === 'fixed'
             ? appBarBlur && {
             backdropFilter: 'blur(8px)',

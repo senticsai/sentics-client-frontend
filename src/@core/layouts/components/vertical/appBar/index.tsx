@@ -41,7 +41,7 @@ const Toolbar = styled(MuiToolbar)<ToolbarProps>(({ theme }) => ({
   borderBottomLeftRadius: theme.shape.borderRadius,
   borderBottomRightRadius: theme.shape.borderRadius,
   minHeight: `${theme.mixins.toolbar.minHeight}px !important`,
-  transition: 'padding .25s ease-in-out, box-shadow .25s ease-in-out, backdrop-filter .25s ease-in-out'
+  transition: 'padding .25s ease-in-out, Box-shadow .25s ease-in-out, backdrop-filter .25s ease-in-out'
 }))
 
 const LayoutAppBar = (props: Props) => {

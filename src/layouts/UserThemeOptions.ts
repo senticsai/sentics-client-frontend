@@ -85,7 +85,7 @@ const UserThemeOptions = (): ThemeOptions => {
       MuiCssBaseline: {
         styleOverrides: {
           '*': {
-            boxSizing: 'border-box'
+            boxSizing: 'border-Box'
           },
           html: {
             MozOsxFontSmoothing: 'grayscale',

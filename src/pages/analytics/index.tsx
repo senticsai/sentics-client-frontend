@@ -1,8 +1,8 @@
 // ** MUI Imports
 import 'react-datepicker/dist/react-datepicker.css'
 import {Button, FormControl, Select} from "@mui/material";
-import {DateTimePicker, LocalizationProvider} from "@mui/lab";
-import AdapterDayjs from "@mui/lab/AdapterDayjs";
+import {DateTimePicker, LocalizationProvider} from '@mui/x-date-pickers';
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import TextField from "@mui/material/TextField";
 import {useEffect, useState} from "react";
 
@@ -88,133 +88,135 @@ const Analytics = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="flex justify-between mb-6">
-        <div className="flex gap-4 items-center">
-          {tabs.map((tab, index) => {
-            return (
-              <Button variant={selectedTab.label === tab.label ? 'contained' : 'outlined'} key={index}
-                      onClick={() => {
-                        setSelectedTab(tab);
-                        setSelectedSubTab(tab.children[0]);
-                      }}>
-                <tab.icon className="mr-2"/>
-                {tab.label}
-              </Button>
-            )
-          })}
-        </div>
-
-
-        <div className="flex gap-4">
-          <DateTimePicker
-            label="Start Time"
-            value={startDateTime}
-            onChange={(newValue) => {
-              console.log((new Date(newValue as any)).toUTCString());
-              setStartDateTime(newValue as Date);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-          <DateTimePicker
-            label="End Time"
-            value={endDateTime}
-            onChange={(newValue) => {
-              setEndDateTime(newValue as Date);
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </div>
-      </div>
-
-      <div className="flex gap-4 mb-8 items-center">
-        <FormControl size="small">
-          <InputLabel>Metric</InputLabel>
-          <Select
-            value={selectedSubTab}
-            label="Metric"
-            onChange={(event) => {
-              setSelectedSubTab(event.target.value as any);
-            }}
-          >
-            {selectedTab.children.map((subTab, index) => {
+      <>
+        <div className="flex justify-between mb-6">
+          <div className="flex gap-4 items-center">
+            {tabs.map((tab, index) => {
               return (
-                <MenuItem value={subTab as any} key={index}>{subTab.label}</MenuItem>
+                <Button variant={selectedTab.label === tab.label ? 'contained' : 'outlined'} key={index}
+                        onClick={() => {
+                          setSelectedTab(tab);
+                          setSelectedSubTab(tab.children[0]);
+                        }}>
+                  <tab.icon className="mr-2"/>
+                  {tab.label}
+                </Button>
               )
             })}
-          </Select>
-        </FormControl>
+          </div>
 
-        <FormControl size="small">
-          <InputLabel>Aggregation</InputLabel>
-          <Select
-            value={selectedAggregation}
-            label="Aggregation"
-            onChange={(event) => {
-              setSelectedAggregation(event.target.value as any);
-            }}
-          >
-            {selectedSubTab.aggregations.map((aggregation, index) => {
-              return (
-                <MenuItem value={aggregation as any} key={index}>{aggregations[aggregation]}</MenuItem>
-              )
-            })}
-          </Select>
-        </FormControl>
 
-        {selectedSubTab.classFilter && (
+          <div className="flex gap-4">
+            <DateTimePicker
+              label="Start Time"
+              value={startDateTime}
+              onChange={(newValue) => {
+                console.log((new Date(newValue as any)).toUTCString());
+                setStartDateTime(newValue as Date);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <DateTimePicker
+              label="End Time"
+              value={endDateTime}
+              onChange={(newValue) => {
+                setEndDateTime(newValue as Date);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </div>
+        </div>
+
+        <div className="flex gap-4 mb-8 items-center">
           <FormControl size="small">
-            <InputLabel>Class</InputLabel>
+            <InputLabel>Metric</InputLabel>
             <Select
-              value={selectedClasses}
-              label="Class"
-              multiple
+              value={selectedSubTab}
+              label="Metric"
               onChange={(event) => {
-                setSelectedClasses(event.target.value as any);
+                setSelectedSubTab(event.target.value as any);
               }}
             >
-              {classes.map((className, index) => {
+              {selectedTab.children.map((subTab, index) => {
                 return (
-                  <MenuItem value={className as any} key={index}>{uppercaseFirstLetter(className)}</MenuItem>
+                  <MenuItem value={subTab as any} key={index}>{subTab.label}</MenuItem>
                 )
               })}
             </Select>
           </FormControl>
-        )}
 
-        <DebouncedTextField
-          className="w-32"
-          label="Min Threshold"
-          variant="outlined"
-          size="small"
-          type="number"
-          value={minThreshold}
-          onChange={(event) => {
-            setMinThreshold(Number(event.target.value));
-          }}
-        />
+          <FormControl size="small">
+            <InputLabel>Aggregation</InputLabel>
+            <Select
+              value={selectedAggregation}
+              label="Aggregation"
+              onChange={(event) => {
+                setSelectedAggregation(event.target.value as any);
+              }}
+            >
+              {selectedSubTab.aggregations.map((aggregation, index) => {
+                return (
+                  <MenuItem value={aggregation as any} key={index}>{aggregations[aggregation]}</MenuItem>
+                )
+              })}
+            </Select>
+          </FormControl>
 
-        <DebouncedTextField
-          className="w-32"
-          label="Max Threshold"
-          variant="outlined"
-          size="small"
-          type="number"
-          value={maxThreshold}
-          onChange={(event) => {
-            setMaxThreshold(Number(event.target.value));
-          }}
-        />
-      </div>
+          {selectedSubTab.classFilter && (
+            <FormControl size="small">
+              <InputLabel>Class</InputLabel>
+              <Select
+                value={selectedClasses}
+                label="Class"
+                multiple
+                onChange={(event) => {
+                  setSelectedClasses(event.target.value as any);
+                }}
+              >
+                {classes.map((className, index) => {
+                  return (
+                    <MenuItem value={className as any} key={index}>{uppercaseFirstLetter(className)}</MenuItem>
+                  )
+                })}
+              </Select>
+            </FormControl>
+          )}
 
-      <div>
-        <AnalyticsResult onDateTimeChange={
-          (startDateTime, endDateTime) => {
-            console.log((new Date(startDateTime)).toUTCString())
-            setStartDateTime(new Date(startDateTime));
-            setEndDateTime(new Date(endDateTime));
-          }
-        } query={getQuery()}/>
-      </div>
+          <DebouncedTextField
+            className="w-32"
+            label="Min Threshold"
+            variant="outlined"
+            size="small"
+            type="number"
+            value={minThreshold}
+            onChange={(event) => {
+              setMinThreshold(Number(event.target.value));
+            }}
+          />
+
+          <DebouncedTextField
+            className="w-32"
+            label="Max Threshold"
+            variant="outlined"
+            size="small"
+            type="number"
+            value={maxThreshold}
+            onChange={(event) => {
+              setMaxThreshold(Number(event.target.value));
+            }}
+          />
+        </div>
+
+        <div>
+          <AnalyticsResult onDateTimeChange={
+            (startDateTime, endDateTime) => {
+              console.log((new Date(startDateTime)).toUTCString())
+              setStartDateTime(new Date(startDateTime));
+              setEndDateTime(new Date(endDateTime));
+            }
+          } query={getQuery()}/>
+        </div>
+      </>
     </LocalizationProvider>
   )
 }
