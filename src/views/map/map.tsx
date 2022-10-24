@@ -2,10 +2,7 @@ import {DoubleSide, Shape} from "three";
 import {useThree} from "@react-three/fiber";
 import React, {useEffect} from "react";
 import Entities from "./entities";
-import {getMiddlePoint} from "../../helpers/getMiddlePoint";
 import {getSize} from "../../helpers/getSize";
-import {useLoader} from '@react-three/fiber'
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 
 
 // TODO get this from api in the future
@@ -28,7 +25,10 @@ const mapPoints = [
 function Map({entities, perspective}: { entities: EntitiesPayload, perspective: '2d' | '3d' }) {
   const shape = new Shape();
   const {camera} = useThree();
-  const gltf = useLoader(GLTFLoader, '../models/map.gltf')
+
+
+  // TODO import max 2.5mb model
+  // const gltf = useLoader(GLTFLoader, '../models/map.gltf')
 
   useEffect(() => {
     if (perspective === '2d') {
