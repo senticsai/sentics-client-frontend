@@ -1,9 +1,8 @@
 // ** MUI Imports
 import 'react-datepicker/dist/react-datepicker.css'
-import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {Button, FormControl, Select} from "@mui/material";
 import {DateTimePicker, LocalizationProvider} from "@mui/lab";
+import AdapterDayjs from "@mui/lab/AdapterDayjs";
 import TextField from "@mui/material/TextField";
 import {useEffect, useState} from "react";
 
@@ -111,6 +110,7 @@ const Analytics = () => {
             label="Start Time"
             value={startDateTime}
             onChange={(newValue) => {
+              console.log((new Date(newValue as any)).toUTCString());
               setStartDateTime(newValue as Date);
             }}
             renderInput={(params) => <TextField {...params} />}
@@ -209,6 +209,7 @@ const Analytics = () => {
       <div>
         <AnalyticsResult onDateTimeChange={
           (startDateTime, endDateTime) => {
+            console.log((new Date(startDateTime)).toUTCString())
             setStartDateTime(new Date(startDateTime));
             setEndDateTime(new Date(endDateTime));
           }

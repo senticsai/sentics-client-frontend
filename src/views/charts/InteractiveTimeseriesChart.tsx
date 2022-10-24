@@ -1,6 +1,5 @@
 import ReactApexcharts from "../../@core/components/react-apexcharts";
 import {ApexOptions} from "apexcharts";
-import {useEffect, useState} from "react";
 
 const options: ApexOptions = {
   noData: {
@@ -41,11 +40,18 @@ const options: ApexOptions = {
   tooltip: {
     shared: false
   },
-  colors: ['#ab7efd', '#b992fe'],
+  colors: ['#666CFF', '#6D788D', '#72E128', '#FF4D49', '#FDB528'],
   xaxis: {type: "datetime"},
   yaxis: {
     labels: {
       formatter: function (val) {
+        if (val >= 1000000) {
+          return (val / 1000000).toFixed(0) + "M";
+        }
+        if (val <= 1) {
+          return (val * 100).toFixed(2);
+        }
+
         return val.toFixed(0);
       }
     }
@@ -58,7 +64,7 @@ type TimeSeriesChartProps = {
   beforeZoom?(chart: any, options?: any): void
 }
 
-type Series =  {
+type Series = {
   name: string
   data: [[number, number]] | undefined
 }[];

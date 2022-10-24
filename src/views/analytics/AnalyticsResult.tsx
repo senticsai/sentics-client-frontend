@@ -8,7 +8,19 @@ import {getDetailedAnalytics} from "../../services/ApiService";
 
 const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | undefined, onDateTimeChange(start, end): void }) => {
 
-  const [timeSeries, setTimeSeries] = useState();
+  const [timeSeries, setTimeSeries] = useState([
+    {
+      name: "XYZ MOTORS",
+      data: [
+        [1484677800000, 17],
+        [1484764200000, 24],
+        [1484850600000, 36],
+        [1484937000000, 66],
+        [1485023400000, 34],
+        [1485109800000, 32],
+      ]
+    }
+  ]);
   const [oldQuery, setOldQuery] = useState<AnalyticsQuery | undefined>(undefined);
 
   useEffect(() => {
@@ -21,7 +33,6 @@ const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | un
 
     if (deepEqual(query, oldQuery)) return;
 
-    console.log(query);
 
     getDetailedAnalytics(query).then((data) => {
       console.log(data);
@@ -40,7 +51,6 @@ const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | un
       <DatePickerWrapper>
         <Grid container spacing={6} className='match-height'>
           <Grid item xs={12}>
-            {JSON.stringify(timeSeries)}
             <TimeSeriesChart series={timeSeries as any} beforeZoom={onZoom}/>
           </Grid>
         </Grid>
