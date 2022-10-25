@@ -1,35 +1,35 @@
-import React, {Suspense} from 'react'
-import {Canvas} from '@react-three/fiber'
-import {Bounds, PresentationControls} from "@react-three/drei";
-import {Button} from "@mui/material";
-import Map from './map';
+import React, { Suspense } from 'react'
+import {Canvas, useFrame} from '@react-three/fiber'
+import { Bounds, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { Button } from '@mui/material'
+import Map from './map'
 
-
-export const MapComponent = ({positions}: { positions: EntitiesPayload }) => {
-  const [dimension, setDimension] = React.useState<'2d' | '3d'>("2d");
+export const MapComponent = ({ positions }: { positions: EntitiesPayload }) => {
+  const [perspective, setPerspective] = React.useState<'2d' | '3d'>('2d')
+  const perspectiveCamera = React.useRef<any>(null)
 
   function switchPerspective() {
-    setDimension(dimension === '2d' ? '3d' : '2d');
+    if (perspective === '2d') {
+      return setPerspective('3d')
+    }
+    setPerspective('2d')
   }
-
 
   return (
     <>
-      <Canvas flat camera={{zoom: 4, position: [0, 150, 0], rotation: [-Math.PI / 2, 0, Math.PI / 2]}}>
-        // TODO Orbit Controls
-
-        <PresentationControls enabled={dimension === '3d'} global zoom={2}>
-          <Suspense fallback={null}>
-            <Bounds clip>
-              <Map perspective={dimension} entities={positions}/>
-            </Bounds>
-          </Suspense>
-          <ambientLight/>
-        </PresentationControls>
-
+      <Canvas>
+        <Suspense fallback={null}>
+          <PerspectiveCamera ref={perspectiveCamera} position={[0, 0, 0]} zoom={1} makeDefault />
+          <OrbitControls enabled={perspective === '3d'} />
+          <Bounds clip>
+            <Map entities={positions} perspective={perspective} />
+          </Bounds>
+        </Suspense>
+        <ambientLight />
       </Canvas>
-      <Button variant="outlined" onClick={switchPerspective}
-              className="!absolute bottom-16 right-16 bg-black z-10">{dimension}</Button>
+      <Button variant='outlined' onClick={switchPerspective} className='!absolute bottom-16 right-16 bg-black z-10'>
+        {perspective}
+      </Button>
     </>
   )
 }
