@@ -33,13 +33,14 @@ function Map({entities, perspective}: { entities: EntitiesPayload; perspective: 
 
     if (currentAnimation === '2d') {
       camera.position.lerp(new THREE.Vector3(0, 100, 0), 0.1)
-      camera.lookAt(new THREE.Vector3(0, 0, -degToRad(90)))
+      camera.lookAt(new THREE.Vector3(0, 0, -degToRad(0.01)))
+      setAnimationState(animationState + 0.005)
     } else if (currentAnimation === '3d') {
-      camera.position.lerp(new THREE.Vector3(0, 100, 100), 0.1)
-      camera.lookAt(new THREE.Vector3(0, 0, -degToRad(90)))
+      camera.position.lerp(new THREE.Vector3(0, 100, 100), 0.15)
+      camera.lookAt(new THREE.Vector3(0, 0, -degToRad(0.01)))
+      setAnimationState(animationState + 0.05)
     }
 
-    setAnimationState(animationState + 0.01)
   })
 
   useEffect(() => {
