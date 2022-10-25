@@ -18,9 +18,9 @@ export const MapComponent = ({positions}: { positions: EntitiesPayload }) => {
       <Canvas flat camera={{zoom: 4, position: [10, 150, 0], rotation: [-Math.PI / 2, 0, Math.PI / 2]}}>
       <PerspectiveCamera position={[0,0,0]}>
           <Suspense fallback={null}>
-            {/* <Bounds clip> */}
+            <Bounds clip>
               <Map perspective={dimension} entities={positions}/>
-            {/* </Bounds> */}
+            </Bounds>
           </Suspense>
           <ambientLight/>
         <OrbitControls enabled={dimension === '3d'} makeDefault={true}/>
