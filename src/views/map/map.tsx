@@ -23,7 +23,7 @@ const mapPoints = [
   [1.42, 0.0]
 ]
 
-function Map({entities, perspective}: { entities: EntitiesPayload; perspective: '2d' | '3d' }) {
+function Map({entities, perspective, rotation}: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number }) {
   const shape = new Shape(mapPoints.map(([x, y]) => new THREE.Vector2(x, y)))
   const [animationState, setAnimationState] = React.useState(0)
   const [currentAnimation, setCurrentAnimation] = React.useState('idle')
@@ -36,7 +36,7 @@ function Map({entities, perspective}: { entities: EntitiesPayload; perspective: 
       camera.lookAt(new THREE.Vector3(0, 0, -degToRad(0.01)))
       setAnimationState(animationState + 0.005)
     } else if (currentAnimation === '3d') {
-      camera.position.lerp(new THREE.Vector3(0, 100, 100), 0.15)
+      camera.position.lerp(new THREE.Vector3(0, 80, 80), 0.15)
       camera.lookAt(new THREE.Vector3(0, 0, -degToRad(0.01)))
       setAnimationState(animationState + 0.05)
     }
@@ -59,11 +59,7 @@ function Map({entities, perspective}: { entities: EntitiesPayload; perspective: 
 
   return (
     <>
-      {/*<mesh>*/}
-      {/*  <sphereGeometry args={[1, 32, 32]} />*/}
-      {/*  <meshStandardMaterial color='green' />*/}
-      {/*</mesh>*/}
-      <mesh rotation={[0, Math.PI / 2, 0]}>
+      <mesh rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0, -(y / 2)]}>
           <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]}/>
           <meshStandardMaterial side={DoubleSide}/>

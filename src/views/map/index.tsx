@@ -6,7 +6,9 @@ import Map from './map'
 
 export const MapComponent = ({ positions }: { positions: EntitiesPayload }) => {
   const [perspective, setPerspective] = React.useState<'2d' | '3d'>('2d')
+  const [rotation, setRotation] = React.useState(1)
   const perspectiveCamera = React.useRef<any>(null)
+
 
   function switchPerspective() {
     if (perspective === '2d') {
@@ -22,14 +24,21 @@ export const MapComponent = ({ positions }: { positions: EntitiesPayload }) => {
           <PerspectiveCamera ref={perspectiveCamera} position={[0, 0, 0]} zoom={1} makeDefault />
           <OrbitControls enabled={perspective === '3d'} />
           <Bounds clip>
-            <Map entities={positions} perspective={perspective} />
+            <Map entities={positions} perspective={perspective} rotation={rotation} />
           </Bounds>
         </Suspense>
         <ambientLight />
       </Canvas>
-      <Button variant='outlined' onClick={switchPerspective} className='!absolute bottom-16 right-16 bg-black z-10'>
-        {perspective}
-      </Button>
+      <section className='!absolute bottom-0 right-4 z-10'>
+        <div className="flex flex-row gap-4">
+          <Button variant='outlined' onClick={switchPerspective}>
+            {perspective}
+          </Button>
+          <Button variant='outlined' onClick={() => {setRotation(rotation + 1)}}>
+            Rotate
+          </Button>
+        </div>
+      </section>
     </>
   )
 }
