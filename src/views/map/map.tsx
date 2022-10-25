@@ -1,8 +1,9 @@
 import {DoubleSide, Shape} from "three";
 import {useThree} from "@react-three/fiber";
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import Entities from "./entities";
 import {getSize} from "../../helpers/getSize";
+import { useCamera, PerspectiveCamera } from "@react-three/drei";
 
 
 // TODO get this from api in the future
@@ -30,22 +31,24 @@ function Map({entities, perspective}: { entities: EntitiesPayload, perspective: 
   // TODO import max 2.5mb model
   // const gltf = useLoader(GLTFLoader, '../models/map.gltf')
 
+  
   useEffect(() => {
     if (perspective === '2d') {
-      camera.position.set(0, 150, 0);
+      console.log("camera: ", camera.position);
+      camera.position.set(10, 150, 0);
+      console.log("camera after: ", camera.position);
       camera.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
-      camera.zoom = 4;
-
+      camera.lookAt(0, -250, 0);
     }
 
     if (perspective === '3d') {
       camera.position.set(0, 0, 150);
+      console.log("Three: ", camera.position);
       camera.rotation.set(0, 0, 0);
-      camera.zoom = 4;
-      camera.lookAt(0, 0, 0);
-
+      camera.lookAt(0, -250, 0);
     }
   }, [perspective])
+  
 
   mapPoints.reverse();
 
@@ -66,16 +69,27 @@ function Map({entities, perspective}: { entities: EntitiesPayload, perspective: 
 
   const [x, y] = getSize(mapPoints);
 
+  // const resetCamera = () : void => {
+  //   if(perspective === "2d"){
+  //     console.log("mesh: ", meshRef.current);
+  //     camera.position.set(0, 150, 0);
+  //     camera.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
+  //     console.log("clicked");
+  //     camera.zoom = 4;
+  //   }
+  // }
+
+  const meshRef: any = useRef(null);
+
   return (
     <>
       {/*{perspective === '2d' ? (*/}
-        <mesh position={[-x / 2, 0, -y / 2]}>
+        <mesh ref={meshRef} position={[-x / 2, 0, -y / 2]}>
           <mesh rotation={[Math.PI / 2, 0, 0,]}>
             <extrudeBufferGeometry attach="geometry" args={[shape, extrudeSettings]}/>
             <meshStandardMaterial side={DoubleSide}/>
           </mesh>
           <Entities entities={entities}/>
-
         </mesh>
       {/*) : (*/}
       {/*  <mesh>*/}
