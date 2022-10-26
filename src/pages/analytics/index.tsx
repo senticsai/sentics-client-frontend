@@ -23,7 +23,7 @@ const tabs = [
       {
         label: 'Safety Score',
         classFilter: false,
-        aggregations: ['none', 'avg', 'min', 'max']
+        aggregations: ['none', 'avg', 'min']
       },
       {
         label: 'Distance',
@@ -46,7 +46,7 @@ const tabs = [
 ]
 
 const aggregations = {
-  'none': 'None',
+  'none': 'Raw',
   'avg': 'Average',
   'min': 'Min',
   'max': 'Max'
