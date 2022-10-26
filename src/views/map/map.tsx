@@ -1,10 +1,10 @@
-import {DoubleSide, Shape} from 'three'
-import React, {useEffect} from 'react'
+import { DoubleSide, Shape, ShapeGeometry } from 'three'
+import React, { useEffect } from 'react'
 import Entities from './entities'
-import {getSize} from '../../helpers/getSize'
+import { getSize } from '../../helpers/getSize'
 import * as THREE from 'three'
-import {useFrame} from '@react-three/fiber'
-import {degToRad} from 'three/src/math/MathUtils'
+import { useFrame } from '@react-three/fiber'
+import { degToRad } from 'three/src/math/MathUtils'
 
 // TODO get this from api in the future
 const mapPoints = [
@@ -23,12 +23,15 @@ const mapPoints = [
   [1.42, 0.0]
 ]
 
-function Map({entities, perspective, rotation}: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number }) {
+function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number }) {
   const shape = new Shape(mapPoints.map(([x, y]) => new THREE.Vector2(x, y)))
+  const wall = shape.clone()
+  wall.holes.push(shape)
+
   const [animationState, setAnimationState] = React.useState(0)
   const [currentAnimation, setCurrentAnimation] = React.useState('idle')
 
-  useFrame(({camera}) => {
+  useFrame(({ camera }) => {
     if (animationState > 1) return;
 
     if (currentAnimation === '2d') {
@@ -54,6 +57,12 @@ function Map({entities, perspective, rotation}: { entities: EntitiesPayload; per
     depth: 0.5,
     bevelEnabled: false
   }
+  const extrudeSettingsWalls = {
+    curveSegments: 1,
+    steps: 1,
+    depth: -5,
+    bevelEnabled: false
+  }
 
   const [x, y] = getSize(mapPoints)
 
@@ -61,9 +70,13 @@ function Map({entities, perspective, rotation}: { entities: EntitiesPayload; per
     <>
       <mesh rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0, -(y / 2)]}>
-          <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]}/>
-          <meshStandardMaterial side={DoubleSide}/>
-          <Entities entities={entities}/>
+          <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]} />
+          <meshStandardMaterial side={DoubleSide} />
+          <Entities entities={entities} />
+        </mesh>
+        <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0.01, -(y / 2)]}>
+          <extrudeBufferGeometry attach='geometry' args={[wall, extrudeSettingsWalls]} />
+          <meshStandardMaterial side={DoubleSide} color='#9AA2A4'/>
         </mesh>
       </mesh>
     </>
