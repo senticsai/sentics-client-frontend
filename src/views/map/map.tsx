@@ -71,13 +71,14 @@ function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; p
       <mesh rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0, -(y / 2)]}>
           <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]} />
-          <meshStandardMaterial side={DoubleSide} />
           <Entities entities={entities} />
-        </mesh>
-        <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0.01, -(y / 2)]}>
-          <extrudeBufferGeometry attach='geometry' args={[wall, extrudeSettingsWalls]} />
           <meshStandardMaterial side={DoubleSide} color='#9AA2A4'/>
+          <mesh>
+            <extrudeBufferGeometry attach='geometry' args={[wall, extrudeSettingsWalls]} />
+            <meshStandardMaterial side={DoubleSide} />
+          </mesh>
         </mesh>
+
       </mesh>
     </>
   )
