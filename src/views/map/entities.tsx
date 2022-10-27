@@ -20,7 +20,7 @@ function Positions({entities}: { entities: EntitiesPayload }) {
 
   return <>
     {entitiesArray.map((position) => {
-      return <mesh position={[position.x, position.y, 0]} key={position.kind + position.id}>
+      return <mesh position={[position.x, position.y, -0.5]} key={position.kind + position.id}>
         <boxGeometry attach="geometry" args={[1, 1, 1]}/>
         <meshStandardMaterial color={position.kind === 'vehicle' ? 'red' : 'blue'}/>
       </mesh>

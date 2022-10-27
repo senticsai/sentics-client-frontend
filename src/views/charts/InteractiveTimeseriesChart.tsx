@@ -49,7 +49,7 @@ const options: ApexOptions = {
           return (val / 1000000).toFixed(0) + "M";
         }
         if (val <= 1) {
-          return (val * 100).toFixed(2);
+          return (100 - (val * 100)).toFixed(2);
         }
 
         return val.toFixed(0);

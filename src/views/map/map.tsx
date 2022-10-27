@@ -1,4 +1,4 @@
-import { DoubleSide, Shape, ShapeGeometry } from 'three'
+import { DoubleSide, Shape } from 'three'
 import React, { useEffect } from 'react'
 import Entities from './entities'
 import { getSize } from '../../helpers/getSize'
@@ -23,7 +23,7 @@ const mapPoints = [
   [1.42, 0.0]
 ]
 
-function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number }) {
+function Map({ entities, perspective, rotation, flip }: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number; flip: {x: number, y: number, z: number} }) {
   const shape = new Shape(mapPoints.map(([x, y]) => new THREE.Vector2(x, y)))
   const wall = shape.clone()
   wall.holes.push(shape)
@@ -50,6 +50,7 @@ function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; p
     setAnimationState(0)
     setCurrentAnimation(perspective)
   }, [perspective])
+  
 
   const extrudeSettings = {
     curveSegments: 1,
@@ -68,16 +69,17 @@ function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; p
 
   return (
     <>
-      <mesh rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
+      <mesh scale={[flip.x, flip.y, flip.z]} rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0, -(y / 2)]}>
           <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]} />
-          <meshStandardMaterial side={DoubleSide} />
           <Entities entities={entities} />
-        </mesh>
-        <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0.01, -(y / 2)]}>
-          <extrudeBufferGeometry attach='geometry' args={[wall, extrudeSettingsWalls]} />
           <meshStandardMaterial side={DoubleSide} color='#9AA2A4'/>
+          <mesh>
+            <extrudeBufferGeometry attach='geometry' args={[wall, extrudeSettingsWalls]} />
+            <meshStandardMaterial side={DoubleSide} />
+          </mesh>
         </mesh>
+
       </mesh>
     </>
   )
