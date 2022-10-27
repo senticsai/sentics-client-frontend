@@ -1,5 +1,5 @@
-import { DoubleSide, Shape, ShapeGeometry } from 'three'
-import React, { useEffect, useRef } from 'react'
+import { DoubleSide, Shape } from 'three'
+import React, { useEffect } from 'react'
 import Entities from './entities'
 import { getSize } from '../../helpers/getSize'
 import * as THREE from 'three'
@@ -23,7 +23,7 @@ const mapPoints = [
   [1.42, 0.0]
 ]
 
-function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number }) {
+function Map({ entities, perspective, rotation, flip }: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number; flip: {x: number, y: number, z: number} }) {
   const shape = new Shape(mapPoints.map(([x, y]) => new THREE.Vector2(x, y)))
   const wall = shape.clone()
   wall.holes.push(shape)
@@ -67,21 +67,9 @@ function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; p
 
   const [x, y] = getSize(mapPoints)
 
-  // const resetCamera = () : void => {
-  //   if(perspective === "2d"){
-  //     console.log("mesh: ", meshRef.current);
-  //     camera.position.set(0, 150, 0);
-  //     camera.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
-  //     console.log("clicked");
-  //     camera.zoom = 4;
-  //   }
-  // }
-
-  const meshRef: any = useRef(null);
-
   return (
     <>
-      <mesh rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
+      <mesh scale={[flip.x, flip.y, flip.z]} rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0, -(y / 2)]}>
           <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]} />
           <Entities entities={entities} />
