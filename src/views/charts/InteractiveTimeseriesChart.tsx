@@ -18,8 +18,9 @@ const options: ApexOptions = {
     enabled: false
   },
   stroke: {
-    show: false,
-    curve: 'straight'
+    show: true,
+    curve: 'straight',
+    width: 1,
   },
   legend: {
     position: 'top',
@@ -34,12 +35,13 @@ const options: ApexOptions = {
     }
   },
   fill: {
-    opacity: 1,
+    opacity: 0,
     type: 'solid'
   },
   tooltip: {
     shared: false
   },
+
   colors: ['#666CFF', '#6D788D', '#72E128', '#FF4D49', '#FDB528'],
   xaxis: {
     type: "datetime",
@@ -49,21 +51,21 @@ const options: ApexOptions = {
         const timeZoneOffset = new Date().getTimezoneOffset() / 60 * -1;
         const time = (timeZoneOffset * 1000 * 60 * 60) + Number(value);
 
-        return new Date(time).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
+        return new Date(time).toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: false})
       }
     }
   },
   yaxis: {
     labels: {
       formatter: function (val) {
-        if (val >= 1000000) {
-          return (val / 1000000).toFixed(0) + "M";
+        if (isNaN(Number(val))) {
+          return '0';
         }
-        if (val <= 1) {
+        if (val < 1 && String(val).length > 4) {
           return (100 - (val * 100)).toFixed(2);
         }
 
-        return val.toFixed(0);
+        return Number(val).toFixed(0);
       }
     }
   },
@@ -73,6 +75,7 @@ const options: ApexOptions = {
 type TimeSeriesChartProps = {
   series: Series,
   beforeZoom?(chart: any, options?: any): void
+  type: 'area' | 'scatter'
 }
 
 type Series = {
@@ -80,7 +83,7 @@ type Series = {
   data: [[number, number]] | undefined
 }[];
 
-const TimeSeriesChart = ({series, beforeZoom}: TimeSeriesChartProps) => {
+const TimeSeriesChart = ({series, beforeZoom, type = 'area'}: TimeSeriesChartProps) => {
 
   const chart: ApexChart = {
     parentHeightOffset: 0,
@@ -99,7 +102,7 @@ const TimeSeriesChart = ({series, beforeZoom}: TimeSeriesChartProps) => {
   };
 
   return (
-    <ReactApexcharts options={{...options, chart}} series={series} type='area' height={400}/>
+    <ReactApexcharts options={{...options, chart}} series={series} type={type} height={400}/>
   )
 }
 

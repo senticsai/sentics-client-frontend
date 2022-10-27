@@ -23,13 +23,14 @@ const tabs = [
       {
         label: 'Safety Score',
         classFilter: false,
-        aggregations: ['none', 'avg', 'min']
+        aggregations: ['avg', 'min']
       },
-      {
-        label: 'Distance',
-        classFilter: false,
-        aggregations: ['avg', 'min', 'max']
-      }
+
+      // {
+      //   label: 'Distance',
+      //   classFilter: false,
+      //   aggregations: ['avg', 'min', 'max']
+      // }
     ]
   },
   {
@@ -39,7 +40,9 @@ const tabs = [
       {
         label: 'Number Of Objects',
         classFilter: true,
-        aggregations: ['none', 'avg', 'min', 'max']
+
+        // TODO add none aggregation and optimize the drawing with chunks
+        aggregations: ['avg', 'min', 'max']
       }
     ]
   }
