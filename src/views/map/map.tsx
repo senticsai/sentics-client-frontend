@@ -1,10 +1,10 @@
-import {DoubleSide, Shape} from "three";
-import {useThree} from "@react-three/fiber";
-import React, {useEffect, useRef} from "react";
-import Entities from "./entities";
-import {getSize} from "../../helpers/getSize";
-import { useCamera, PerspectiveCamera } from "@react-three/drei";
-
+import { DoubleSide, Shape, ShapeGeometry } from 'three'
+import React, { useEffect, useRef } from 'react'
+import Entities from './entities'
+import { getSize } from '../../helpers/getSize'
+import * as THREE from 'three'
+import { useFrame } from '@react-three/fiber'
+import { degToRad } from 'three/src/math/MathUtils'
 
 // TODO get this from api in the future
 const mapPoints = [
@@ -21,53 +21,51 @@ const mapPoints = [
   [4.85, 1.037],
   [4.85, 0.0],
   [1.42, 0.0]
-];
+]
 
-function Map({entities, perspective}: { entities: EntitiesPayload, perspective: '2d' | '3d' }) {
-  const shape = new Shape();
-  const {camera} = useThree();
+function Map({ entities, perspective, rotation }: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number }) {
+  const shape = new Shape(mapPoints.map(([x, y]) => new THREE.Vector2(x, y)))
+  const wall = shape.clone()
+  wall.holes.push(shape)
 
+  const [animationState, setAnimationState] = React.useState(0)
+  const [currentAnimation, setCurrentAnimation] = React.useState('idle')
 
-  // TODO import max 2.5mb model
-  // const gltf = useLoader(GLTFLoader, '../models/map.gltf')
+  useFrame(({ camera }) => {
+    if (animationState > 1) return;
 
-  
+    if (currentAnimation === '2d') {
+      camera.position.lerp(new THREE.Vector3(0, 100, 0), 0.1)
+      camera.lookAt(new THREE.Vector3(0, 0, -degToRad(0.01)))
+      setAnimationState(animationState + 0.005)
+    } else if (currentAnimation === '3d') {
+      camera.position.lerp(new THREE.Vector3(0, 80, 80), 0.15)
+      camera.lookAt(new THREE.Vector3(0, 0, -degToRad(0.01)))
+      setAnimationState(animationState + 0.05)
+    }
+
+  })
+
   useEffect(() => {
-    if (perspective === '2d') {
-      console.log("camera: ", camera.position);
-      camera.position.set(10, 150, 0);
-      console.log("camera after: ", camera.position);
-      camera.rotation.set(-Math.PI / 2, 0, Math.PI / 2);
-      camera.lookAt(0, -250, 0);
-    }
-
-    if (perspective === '3d') {
-      camera.position.set(0, 0, 150);
-      console.log("Three: ", camera.position);
-      camera.rotation.set(0, 0, 0);
-      camera.lookAt(0, -250, 0);
-    }
+    setAnimationState(0)
+    setCurrentAnimation(perspective)
   }, [perspective])
   
-
-  mapPoints.reverse();
-
-  mapPoints.forEach((point, index) => {
-    if (index === 0) {
-      shape.moveTo(point[0], point[1]);
-    } else {
-      shape.lineTo(point[0], point[1]);
-    }
-  });
 
   const extrudeSettings = {
     curveSegments: 1,
     steps: 1,
-    depth: .5,
+    depth: 0.5,
+    bevelEnabled: false
+  }
+  const extrudeSettingsWalls = {
+    curveSegments: 1,
+    steps: 1,
+    depth: -5,
     bevelEnabled: false
   }
 
-  const [x, y] = getSize(mapPoints);
+  const [x, y] = getSize(mapPoints)
 
   // const resetCamera = () : void => {
   //   if(perspective === "2d"){
@@ -83,25 +81,20 @@ function Map({entities, perspective}: { entities: EntitiesPayload, perspective: 
 
   return (
     <>
-      {/*{perspective === '2d' ? (*/}
-        <mesh ref={meshRef} position={[-x / 2, 0, -y / 2]}>
-          <mesh rotation={[Math.PI / 2, 0, 0,]}>
-            <extrudeBufferGeometry attach="geometry" args={[shape, extrudeSettings]}/>
-            <meshStandardMaterial side={DoubleSide}/>
+      <mesh rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0, -(y / 2)]}>
+          <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]} />
+          <Entities entities={entities} />
+          <meshStandardMaterial side={DoubleSide} color='#9AA2A4'/>
+          <mesh>
+            <extrudeBufferGeometry attach='geometry' args={[wall, extrudeSettingsWalls]} />
+            <meshStandardMaterial side={DoubleSide} />
           </mesh>
-          <Entities entities={entities}/>
         </mesh>
-      {/*) : (*/}
-      {/*  <mesh>*/}
-      {/*    <primitive position={[-x / 2, 0, 0]} object={gltf.scene}/>*/}
-      {/*    <mesh position={[-x / 2, 0, -y / 2]} >*/}
-      {/*      <Entities entities={entities}/>*/}
-      {/*    </mesh>*/}
-      {/*  </mesh>*/}
-      {/*)*/}
-      {/*}*/}
+
+      </mesh>
     </>
   )
 }
 
-export default Map;
+export default Map

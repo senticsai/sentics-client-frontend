@@ -1,33 +1,44 @@
-import React, {Suspense} from 'react'
-import {Canvas} from '@react-three/fiber'
-import {Bounds, PresentationControls, OrbitControls, PerspectiveCamera} from "@react-three/drei";
-import {Button} from "@mui/material";
-import Map from './map';
+import React, { Suspense } from 'react'
+import {Canvas, useFrame} from '@react-three/fiber'
+import { Bounds, OrbitControls, PerspectiveCamera } from '@react-three/drei'
+import { Button } from '@mui/material'
+import Map from './map'
 
+export const MapComponent = ({ positions }: { positions: EntitiesPayload }) => {
+  const [perspective, setPerspective] = React.useState<'2d' | '3d'>('2d')
+  const [rotation, setRotation] = React.useState(1)
+  const perspectiveCamera = React.useRef<any>(null)
 
-export const MapComponent = ({positions}: { positions: EntitiesPayload }) => {
-  const [dimension, setDimension] = React.useState<'2d' | '3d'>("2d");
 
   function switchPerspective() {
-    setDimension(dimension === '2d' ? '3d' : '2d');
+    if (perspective === '2d') {
+      return setPerspective('3d')
+    }
+    setPerspective('2d')
   }
-
 
   return (
     <>
-      <Canvas flat camera={{zoom: 4, position: [10, 150, 0], rotation: [-Math.PI / 2, 0, Math.PI / 2]}}>
-      <PerspectiveCamera position={[0,0,0]}>
-          <Suspense fallback={null}>
-            <Bounds clip>
-              <Map perspective={dimension} entities={positions}/>
-            </Bounds>
-          </Suspense>
-          <ambientLight/>
-        <OrbitControls enabled={dimension === '3d'} makeDefault={true}/>
-      </PerspectiveCamera>
+      <Canvas>
+        <Suspense fallback={null}>
+          <PerspectiveCamera ref={perspectiveCamera} position={[0, 0, 0]} zoom={1} makeDefault />
+          <OrbitControls enabled={perspective === '3d'} />
+          <Bounds clip>
+            <Map entities={positions} perspective={perspective} rotation={rotation} />
+          </Bounds>
+        </Suspense>
+        <ambientLight />
       </Canvas>
-      <Button variant="outlined" onClick={switchPerspective}
-              className="!absolute bottom-16 right-16 bg-black z-10">{dimension}</Button>
+      <section className='!absolute bottom-0 right-4 z-10'>
+        <div className="flex flex-row gap-4">
+          <Button variant='outlined' onClick={switchPerspective}>
+            {perspective}
+          </Button>
+          <Button variant='outlined' onClick={() => {setRotation(rotation + 1)}}>
+            Rotate
+          </Button>
+        </div>
+      </section>
     </>
   )
 }

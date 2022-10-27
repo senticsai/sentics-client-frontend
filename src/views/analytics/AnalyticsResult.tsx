@@ -6,6 +6,13 @@ import {Grid} from "@mui/material";
 import TimeSeriesChart from "../charts/InteractiveTimeseriesChart";
 import {getDetailedAnalytics} from "../../services/ApiService";
 
+// TODO in safety show scatter in raw
+
+// TODO donut chart about percentage
+
+// DRAW 2D MAP WITH CANVAS AND SHOW HEATMAP
+// THEN SHOW REPLAY
+
 const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | undefined, onDateTimeChange(start, end): void }) => {
 
   const [timeSeries, setTimeSeries] = useState([
