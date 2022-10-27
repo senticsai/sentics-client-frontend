@@ -1,10 +1,10 @@
-import {DoubleSide, Shape} from 'three'
-import React, {useEffect} from 'react'
+import { DoubleSide, Shape } from 'three'
+import React, { useEffect } from 'react'
 import Entities from './entities'
-import {getSize} from '../../helpers/getSize'
+import { getSize } from '../../helpers/getSize'
 import * as THREE from 'three'
-import {useFrame} from '@react-three/fiber'
-import {degToRad} from 'three/src/math/MathUtils'
+import { useFrame } from '@react-three/fiber'
+import { degToRad } from 'three/src/math/MathUtils'
 
 // TODO get this from api in the future
 const mapPoints = [
@@ -23,13 +23,20 @@ const mapPoints = [
   [1.42, 0.0]
 ]
 
-function Map({entities, perspective, rotation}: { entities: EntitiesPayload; perspective: '2d' | '3d'; rotation: number }) {
+function Map({
+  entities,
+  perspective,
+  rotation
+}: {
+  entities: EntitiesPayload
+  perspective: '2d' | '3d'
+  rotation: number
+}) {
   const shape = new Shape(mapPoints.map(([x, y]) => new THREE.Vector2(x, y)))
   const [animationState, setAnimationState] = React.useState(0)
   const [currentAnimation, setCurrentAnimation] = React.useState('idle')
-
-  useFrame(({camera}) => {
-    if (animationState > 1) return;
+  useFrame(({ camera }) => {
+    if (animationState > 1) return
 
     if (currentAnimation === '2d') {
       camera.position.lerp(new THREE.Vector3(0, 100, 0), 0.1)
@@ -40,7 +47,6 @@ function Map({entities, perspective, rotation}: { entities: EntitiesPayload; per
       camera.lookAt(new THREE.Vector3(0, 0, -degToRad(0.01)))
       setAnimationState(animationState + 0.05)
     }
-
   })
 
   useEffect(() => {
@@ -59,11 +65,11 @@ function Map({entities, perspective, rotation}: { entities: EntitiesPayload; per
 
   return (
     <>
-      <mesh rotation={[0, (-rotation) * (Math.PI / 2), 0]}>
+      <mesh rotation={[0, -rotation * (Math.PI / 2), 0]}>
         <mesh rotation={[Math.PI / 2, 0, 0]} position={[-(x / 2), 0, -(y / 2)]}>
-          <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]}/>
-          <meshStandardMaterial side={DoubleSide}/>
-          <Entities entities={entities}/>
+          <extrudeBufferGeometry attach='geometry' args={[shape, extrudeSettings]} />
+          <meshStandardMaterial side={DoubleSide} />
+          <Entities entities={entities} perspective={perspective} />
         </mesh>
       </mesh>
     </>
