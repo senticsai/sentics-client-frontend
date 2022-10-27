@@ -41,7 +41,18 @@ const options: ApexOptions = {
     shared: false
   },
   colors: ['#666CFF', '#6D788D', '#72E128', '#FF4D49', '#FDB528'],
-  xaxis: {type: "datetime"},
+  xaxis: {
+    type: "datetime",
+    labels: {
+      datetimeUTC: false,
+      formatter: function (value, timestamp, opts) {
+        const timeZoneOffset = new Date().getTimezoneOffset() / 60 * -1;
+        const time = (timeZoneOffset * 1000 * 60 * 60) + Number(value);
+
+        return new Date(time).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: false })
+      }
+    }
+  },
   yaxis: {
     labels: {
       formatter: function (val) {
@@ -55,7 +66,7 @@ const options: ApexOptions = {
         return val.toFixed(0);
       }
     }
-  }
+  },
 }
 
 

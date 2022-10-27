@@ -9,8 +9,6 @@ const Map = () => {
   });
 
   useEffect(() => {
-    console.log("Live page loaded");
-
     // TODO use react-hooks-sse
     const evtSource = new EventSource("http://localhost:3000/live", {withCredentials: true});
     evtSource.onmessage = function (e) {
