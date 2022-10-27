@@ -8,7 +8,7 @@ import FlipHorizontal from 'mdi-material-ui/FlipHorizontal'
 
 export const MapComponent = ({ positions }: { positions: EntitiesPayload }) => {
   const [perspective, setPerspective] = React.useState<'2d' | '3d'>('2d')
-  const [flip, setFlip] = React.useState({ x: 1, y: 1, z: 1 })
+  const [flip, setFlip] = React.useState({ x: 1, z: 1 })
   const [rotation, setRotation] = React.useState(1)
   const perspectiveCamera = React.useRef<any>(null);
 
@@ -23,9 +23,6 @@ export const MapComponent = ({ positions }: { positions: EntitiesPayload }) => {
   function handleFlip(side: string) {
     if (side === 'x')
       setFlip({ ...flip, x: -flip.x })
-    else if (side === 'y')
-      // unsafe
-      setFlip({ ...flip, y: -flip.y })
     else if (side === 'z')
       setFlip({ ...flip, z: -flip.z })
   }
