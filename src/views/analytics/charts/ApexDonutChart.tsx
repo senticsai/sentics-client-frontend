@@ -1,8 +1,3 @@
-// ** MUI Imports
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
-
 // ** Third Party Imports
 import {ApexOptions} from 'apexcharts'
 
@@ -53,12 +48,12 @@ const ApexDonutChart = ({labels, series, centerText}: ApexDonutChartProps) => {
               show: true,
               fontSize: '1.5rem',
               label: centerText,
-              formatter() {
+              formatter(): string {
                 let total = 0;
 
                 const totalSeries = series.reduce((a, b) => a + b, 0);
 
-                if (centerText === 'Total') return totalSeries;
+                if (centerText === 'Total') return String(totalSeries);
 
                 series.forEach((val: number, index) => {
                   const score = Number(labels[index]);
