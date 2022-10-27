@@ -1,17 +1,19 @@
 import {useEffect, useState} from "react";
 import DatePickerWrapper from "src/@core/styles/libs/react-datepicker";
 import ApexChartWrapper from "src/@core/styles/libs/react-apexcharts";
-import {deepEqual} from "../../@core/utils/deepEqual";
+import {deepEqual} from "src/@core/utils/deepEqual";
 import {Grid} from "@mui/material";
 import TimeSeriesChart from "../charts/InteractiveTimeseriesChart";
 import {getDetailedAnalytics} from "../../services/ApiService";
 import ApexDonutChart from "./charts/ApexDonutChart";
+import Card from "@mui/material/Card";
+import SimpleMap from "@components/map/simple-map";
+import Button from "@mui/material/Button";
 
 // TODO in safety show scatter in raw
 
 // TODO donut chart about percentage
 
-// DRAW 2D MAP WITH CANVAS AND SHOW HEATMAP
 // THEN SHOW REPLAY
 
 const AnalyticsResult = ({
@@ -54,10 +56,19 @@ const AnalyticsResult = ({
       <DatePickerWrapper>
         <Grid container spacing={6} className='match-height'>
           <Grid item xs={3}>
-            {donutChart && <ApexDonutChart series={donutChart.series} labels={donutChart.labels} centerText={donutChart.centerText}/>}
+            {donutChart && <ApexDonutChart series={donutChart.series} labels={donutChart.labels}
+                                           centerText={donutChart.centerText}/>}
           </Grid>
           <Grid item xs={9}>
             <TimeSeriesChart series={timeSeries as any} beforeZoom={onZoom} type={'area'}/>
+          </Grid>
+
+          <Grid item xs={12} sx={{mb: 6}}>
+            <Button variant="contained" color="primary">Heatmap</Button>
+
+            <Card sx={{display: "flex", justifyContent: "center", alignItems: "center", mt: 4}}>
+              <SimpleMap style={{position: "relative"}}/>
+            </Card>
           </Grid>
         </Grid>
       </DatePickerWrapper>
