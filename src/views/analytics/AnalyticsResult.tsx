@@ -42,7 +42,6 @@ const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | un
 
 
     getDetailedAnalytics(query).then((data) => {
-      console.log(data);
       setTimeSeries(data.timeSeries);
     });
 
@@ -50,6 +49,7 @@ const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | un
   }, [query]);
 
   function onZoom(chart: any, options?: any) {
+    setTimeSeries([]);
     onDateTimeChange(options.xaxis.min, options.xaxis.max);
   }
 
