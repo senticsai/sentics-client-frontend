@@ -22,7 +22,7 @@ const CustomCanvas = styled('canvas')(({theme}) => ({
 }));
 
 interface SimpleMapProps {
-  style?: React.CSSProperties;
+  className?: string;
 }
 
 function SimpleMap(props: SimpleMapProps) {
@@ -34,7 +34,7 @@ function SimpleMap(props: SimpleMapProps) {
   }, [])
 
   return (
-    <CustomCanvas id="simple-map" style={props.style} width="1400" height="340">Your browser does not support the HTML5 canvas
+    <CustomCanvas id="simple-map" className={props.className} width="1400" height="340">Your browser does not support the HTML5 canvas
       tag.</CustomCanvas>
   );
 }

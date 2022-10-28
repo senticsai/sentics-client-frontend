@@ -67,7 +67,7 @@ const AnalyticsResult = ({
             <Button variant="contained" color="primary">Heatmap</Button>
 
             <Card sx={{display: "flex", justifyContent: "center", alignItems: "center", mt: 4}}>
-              <SimpleMap style={{position: "relative"}}/>
+              <SimpleMap className="relative"/>
             </Card>
           </Grid>
         </Grid>
