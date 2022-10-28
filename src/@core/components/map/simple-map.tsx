@@ -47,7 +47,7 @@ function writeCanvas(canvas: HTMLCanvasElement) {
   ctx.beginPath();
   ctx.strokeStyle = '#fff';
   ctx.lineWidth = 4;
-  ctx.translate(1160, canvas.height / 12);
+  ctx.translate(1160, 22);
   ctx.rotate(90 * Math.PI / 180);
 
   for (let i = 1; i < POLYGON.length; i++) {
