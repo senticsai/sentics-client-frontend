@@ -1,28 +1,24 @@
-// ** MUI Imports
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
-
 // ** Third Party Imports
-import { ApexOptions } from 'apexcharts'
+import {ApexOptions} from 'apexcharts'
 
 // ** Component Import
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
-const donutColors = {
-  series1: '#fdd835',
-  series2: '#00d4bd',
+interface ApexDonutChartProps {
+  labels: string[]
+  series: number[]
+  centerText: string
 }
 
-const ApexDonutChart = () => {
+const ApexDonutChart = ({labels, series, centerText}: ApexDonutChartProps) => {
   const options: ApexOptions = {
     legend: {
       show: true,
       position: 'bottom'
     },
-    stroke: { width: 0 },
-    labels: ['Vehicle', 'Human'],
-    colors: [donutColors.series1, donutColors.series2],
+    labels: labels,
+    stroke: {width: 0},
+    colors: ['#fdd835', '#00d4bd', '#ff5b5b', '#7367f0', '#28c76f', '#ea5455', '#ff9f43', '#1e1e1e', '#9980fa', '#0acf97'],
     dataLabels: {
       enabled: true,
       formatter(val: string) {
@@ -42,15 +38,29 @@ const ApexDonutChart = () => {
               fontSize: '1rem',
               fontFamily: 'Montserrat',
               formatter(val: string) {
-                return `${parseInt(val, 10)}`
+                // find the percentage of the value
+                const percentage = (parseInt(val, 10) / series.reduce((a, b) => a + b)) * 100
+
+                return percentage.toFixed(1) + '%'
               }
             },
             total: {
               show: true,
               fontSize: '1.5rem',
-              label: 'Total',
-              formatter() {
-                return series.reduce((a: number, b: number) => a + b, 0).toString()
+              label: centerText,
+              formatter(): string {
+                let total = 0;
+
+                const totalSeries = series.reduce((a, b) => a + b, 0);
+
+                if (centerText === 'Total') return String(totalSeries);
+
+                series.forEach((val: number, index) => {
+                  const score = Number(labels[index]);
+                  total += score * Number(val);
+                })
+
+                return `${(total / totalSeries).toFixed(1)}`
               }
             }
           }
@@ -98,26 +108,8 @@ const ApexDonutChart = () => {
     ]
   }
 
-  const series = [326236, 353535]
-
   return (
-    <Card>
-
-      <CardHeader
-        title="Kind Ratio"
-        titleTypographyProps={{ variant: 'h6' }}
-        subheader="Detection rates of various kinds"
-        subheaderTypographyProps={{ variant: 'caption', sx: { color: 'text.disabled' } }}
-      />
-      <CardContent
-        sx={{
-          '& .apexcharts-canvas .apexcharts-pie .apexcharts-datalabel-label, & .apexcharts-canvas .apexcharts-pie .apexcharts-datalabel-value':
-            { fontSize: '1.2rem' }
-        }}
-      >
-        <ReactApexcharts options={options} series={series} type='donut' height={400} />
-      </CardContent>
-    </Card>
+    <ReactApexcharts options={options} series={series} type='donut' height={400}/>
   )
 }
 

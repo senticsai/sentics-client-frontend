@@ -5,23 +5,23 @@ import {deepEqual} from "../../@core/utils/deepEqual";
 import {Grid} from "@mui/material";
 import TimeSeriesChart from "../charts/InteractiveTimeseriesChart";
 import {getDetailedAnalytics} from "../../services/ApiService";
+import ApexDonutChart from "./charts/ApexDonutChart";
 
-const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | undefined, onDateTimeChange(start, end): void }) => {
+// TODO in safety show scatter in raw
 
-  const [timeSeries, setTimeSeries] = useState([
-    {
-      name: "XYZ MOTORS",
-      data: [
-        [1484677800000, 17],
-        [1484764200000, 24],
-        [1484850600000, 36],
-        [1484937000000, 66],
-        [1485023400000, 34],
-        [1485109800000, 32],
-      ]
-    }
-  ]);
+// TODO donut chart about percentage
+
+// DRAW 2D MAP WITH CANVAS AND SHOW HEATMAP
+// THEN SHOW REPLAY
+
+const AnalyticsResult = ({
+                           query,
+                           onDateTimeChange
+                         }: { query: AnalyticsQuery | undefined, onDateTimeChange(start, end): void }) => {
+
+  const [timeSeries, setTimeSeries] = useState<any>([]);
   const [oldQuery, setOldQuery] = useState<AnalyticsQuery | undefined>(undefined);
+  const [donutChart, setDonutChart] = useState<any>();
 
   useEffect(() => {
     if (!query) return;
@@ -35,14 +35,17 @@ const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | un
 
 
     getDetailedAnalytics(query).then((data) => {
-      console.log(data);
-      setTimeSeries(data.timeSeries);
+      const {timeSeries, summary} = data;
+
+      setDonutChart(summary);
+      setTimeSeries(timeSeries);
     });
 
     setOldQuery(query);
   }, [query]);
 
   function onZoom(chart: any, options?: any) {
+    setTimeSeries([]);
     onDateTimeChange(options.xaxis.min, options.xaxis.max);
   }
 
@@ -50,8 +53,11 @@ const AnalyticsResult = ({query, onDateTimeChange}: { query: AnalyticsQuery | un
     <ApexChartWrapper>
       <DatePickerWrapper>
         <Grid container spacing={6} className='match-height'>
-          <Grid item xs={12}>
-            <TimeSeriesChart series={timeSeries as any} beforeZoom={onZoom}/>
+          <Grid item xs={3}>
+            {donutChart && <ApexDonutChart series={donutChart.series} labels={donutChart.labels} centerText={donutChart.centerText}/>}
+          </Grid>
+          <Grid item xs={9}>
+            <TimeSeriesChart series={timeSeries as any} beforeZoom={onZoom} type={'area'}/>
           </Grid>
         </Grid>
       </DatePickerWrapper>

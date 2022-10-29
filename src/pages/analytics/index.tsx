@@ -23,13 +23,14 @@ const tabs = [
       {
         label: 'Safety Score',
         classFilter: false,
-        aggregations: ['none', 'avg', 'min', 'max']
+        aggregations: ['avg', 'min']
       },
-      {
-        label: 'Distance',
-        classFilter: false,
-        aggregations: ['avg', 'min', 'max']
-      }
+
+      // {
+      //   label: 'Distance',
+      //   classFilter: false,
+      //   aggregations: ['avg', 'min', 'max']
+      // }
     ]
   },
   {
@@ -39,14 +40,16 @@ const tabs = [
       {
         label: 'Number Of Objects',
         classFilter: true,
-        aggregations: ['none', 'avg', 'min', 'max']
+
+        // TODO add none aggregation and optimize the drawing with chunks
+        aggregations: ['avg', 'min', 'max']
       }
     ]
   }
 ]
 
 const aggregations = {
-  'none': 'None',
+  'none': 'Raw',
   'avg': 'Average',
   'min': 'Min',
   'max': 'Max'
@@ -111,7 +114,6 @@ const Analytics = () => {
               label="Start Time"
               value={startDateTime}
               onChange={(newValue) => {
-                console.log((new Date(newValue as any)).toUTCString());
                 setStartDateTime(newValue as Date);
               }}
               renderInput={(params) => <TextField {...params} />}
@@ -210,7 +212,10 @@ const Analytics = () => {
         <div>
           <AnalyticsResult onDateTimeChange={
             (startDateTime, endDateTime) => {
-              console.log((new Date(startDateTime)).toUTCString())
+              const timeZoneOffset = new Date().getTimezoneOffset() / 60 * -1;
+              startDateTime = (timeZoneOffset * 1000 * 60 * 60) + Number(startDateTime);
+              endDateTime = (timeZoneOffset * 1000 * 60 * 60) + Number(endDateTime);
+
               setStartDateTime(new Date(startDateTime));
               setEndDateTime(new Date(endDateTime));
             }
