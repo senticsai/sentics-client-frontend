@@ -1,25 +1,10 @@
 import React, {useEffect} from "react";
 import h337 from "./script/heatmap";
 
-const styles: React.CSSProperties = {
-  width: '100%',
-  height: '100%',
-  position: 'absolute',
+interface HeatMapProps {
+  className?: string;
+  canvasId: string;
 }
-
-function HeatMap() {
-  useEffect(() => {
-    configurationHeatMap();
-  }, [])
-
-  return (
-    <div id="heat-map" style={styles}>
-      test
-    </div>
-  );
-}
-
-export default HeatMap;
 
 function configurationHeatMap() {
   const heatmapInstance: any = h337.create({
@@ -47,3 +32,17 @@ function configurationHeatMap() {
     data: points
   });
 }
+
+function HeatMap(props: HeatMapProps) {
+  useEffect(() => {
+    configurationHeatMap();
+  }, [])
+
+  return (
+    <div id="heat-map" className={props.className}>
+      test
+    </div>
+  );
+}
+
+export default HeatMap;

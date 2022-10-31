@@ -1,28 +1,30 @@
 import React, {useEffect} from "react";
-import {styled} from "@mui/material/styles";
-
-const POLYGON = [
-  [1.42, 0.0],
-  [1.42, 53.6],
-  [0.0, 54.97],
-  [0.0, 75.16],
-  [-1.53, 75.16],
-  [-1.53, 83.46],
-  [26.22, 55.49],
-  [26.22, 0.0],
-  [10.69, 0.0],
-  [10.69, 1.037],
-  [4.85, 1.037],
-  [4.85, 0.0],
-  [1.42, 1.037]
-]
-
-const CustomCanvas = styled('canvas')(({theme}) => ({
-  width: 876
-}));
+import Box from "@components/mui/Box";
 
 interface SimpleMapProps {
   className?: string;
+  polygon: [number, number][];
+}
+
+function writeCanvas(canvas: HTMLCanvasElement, polygon: [number, number][]) {
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+  ctx.beginPath();
+  ctx.strokeStyle = '#9AA2A4';
+  ctx.lineWidth = 4;
+  ctx.translate(700, 22);
+  ctx.rotate(90 * Math.PI / 180);
+
+  for (let i = 1; i < polygon.length; i++) {
+    ctx.lineTo(
+      Math.floor(300 * polygon[i][0] / 36),
+      Math.floor(500 * polygon[i][1] / 60)
+    )
+  }
+
+
+  ctx.closePath();
+  ctx.stroke();
 }
 
 function SimpleMap(props: SimpleMapProps) {
@@ -30,30 +32,16 @@ function SimpleMap(props: SimpleMapProps) {
     const canvas = document.getElementById('simple-map') as HTMLCanvasElement;
     if (!canvas) return;
 
-    writeCanvas(canvas);
+    writeCanvas(canvas, props.polygon);
   }, [])
 
   return (
-    <CustomCanvas id="simple-map" className={props.className} width="1400" height="340">Your browser does not support the HTML5 canvas
-      tag.</CustomCanvas>
+    <Box className={props.className}>
+      <canvas id="simple-map" width="702" height="242">Your browser does not support the HTML5 canvas
+        tag.
+      </canvas>
+    </Box>
   );
 }
 
 export default SimpleMap;
-
-function writeCanvas(canvas: HTMLCanvasElement) {
-  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-
-  ctx.beginPath();
-  ctx.strokeStyle = '#fff';
-  ctx.lineWidth = 4;
-  ctx.translate(1160, 22);
-  ctx.rotate(90 * Math.PI / 180);
-
-  for (let i = 1; i < POLYGON.length; i++) {
-    ctx.lineTo(300 * POLYGON[i][0] / 26, 1000 * POLYGON[i][1] / 83);
-  }
-
-  ctx.closePath();
-  ctx.stroke();
-}
