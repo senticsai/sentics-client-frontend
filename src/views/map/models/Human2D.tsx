@@ -6,7 +6,7 @@ function Human2D({ rotation }: { rotation: [number, number, number] }) {
 
   return (
     <mesh rotation={rotation}>
-      <boxGeometry args={[2, 2, 0.1]} />
+      <boxGeometry args={[2, 2, 0.01]} />
       <meshStandardMaterial color='green' map={human2d} transparent side={THREE.DoubleSide} />
     </mesh>
   )
