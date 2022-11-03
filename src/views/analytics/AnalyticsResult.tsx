@@ -82,7 +82,11 @@ const AnalyticsResult = ({
           </Grid>
 
           <Grid item xs={12} sx={{mb: 6}}>
-            <Button variant="contained" color="primary">Heatmap</Button>
+            <div className="flex flex-row gap-4">
+              <Button variant="contained" color="primary">Heatmap</Button>
+              <Button variant="contained" color="primary">Replay</Button>
+              <Button variant="contained" color="primary">Spaghetti Map</Button>
+            </div>
 
             <Card sx={{display: "flex", justifyContent: "center", alignItems: "center", mt: 4,}}>
              <HeatMapV2 data={heatmap} canvasId="simple-map" polygon={POLYGON} />
