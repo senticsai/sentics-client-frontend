@@ -27,13 +27,25 @@ function Positions({ entities, perspective }: { entities: EntitiesPayload; persp
       {entitiesArray.map(position => {
         if (position.kind === 'human') {
           return (
-            <mesh position={[position.x, position.y, -0.4]} key={position.kind + position.id}>
-              {perspective === '2d' ? <Human2D rotation={[0, 0, Math.PI / 2]} /> : <Human3D />}
+            <mesh
+              position={[position.x, position.y, -0.4]}
+              key={position.kind + position.id}
+              rotation={[0, 0, position.heading]}
+            >
+              {perspective === '2d' ? (
+                <Human2D rotation={[0, 0, Math.PI / 2]} />
+              ) : (
+                <Human3D scale={0.5} rotation={[-Math.PI / 2, 0, 0]} />
+              )}
             </mesh>
           )
         } else
           return (
-            <mesh position={[position.x, position.y, 0]} key={position.kind + position.id}>
+            <mesh
+              position={[position.x, position.y, 0]}
+              key={position.kind + position.id}
+              rotation={[0, 0, position.heading]}
+            >
               {perspective === '2d' ? (
                 <Vehicle2D rotation={[0, 0, degToRad(90)]} />
               ) : (
