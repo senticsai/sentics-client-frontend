@@ -28,10 +28,4 @@ declare global {
     startDateTime: string;
     endDateTime: string;
   }
-
-  interface HeatmapQuery {
-    detailLevel: number;
-    startDateTime: string;
-    endDateTime: string;
-  }
 }

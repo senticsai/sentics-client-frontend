@@ -21,8 +21,8 @@ function writeCanvas(canvas: HTMLCanvasElement, polygon: [number, number][]) {
       Math.floor(500 * polygon[i][1] / 60)
     )
   }
-
-
+  ctx.clearRect(10, 600, canvas.width, canvas.height);
+  ctx.clearRect(140, 534, 80, 90);
   ctx.closePath();
   ctx.stroke();
 }
