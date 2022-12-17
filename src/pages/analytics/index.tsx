@@ -84,8 +84,8 @@ const Analytics = () => {
       classes: selectedClasses as any,
       minThreshold,
       maxThreshold,
-      startDateTime: startDateTime.toISOString(),
-      endDateTime: endDateTime.toISOString()
+      startDateTime: isoDateWithoutTimeZone(startDateTime?.$d as Date),
+      endDateTime: isoDateWithoutTimeZone(endDateTime?.$d as Date)
     };
   }
 
@@ -227,3 +227,11 @@ const Analytics = () => {
 }
 
 export default Analytics
+
+function isoDateWithoutTimeZone(date) {
+  if (date == null) return date;
+  const timestamp = date.getTime() - date.getTimezoneOffset() * 60000;
+  const correctDate = new Date(timestamp);
+
+  return correctDate.toISOString();
+}
