@@ -96,7 +96,7 @@ const AnalyticsResult = ({ query, onDateTimeChange }: IAnalyticsProps) => {
     if (heatMapRef?.current === null) return
     if (heatMapRef?.current !== null && heatMapRef?.current.children[1]) heatMapRef?.current.children[1].remove()
     const heatmap = h337.create({
-      container: heatMapRef?.current,
+      container: heatMapRef?.current
     })
     const data: any[] = []
     heatmappoint.forEach(item => {
@@ -139,14 +139,18 @@ const AnalyticsResult = ({ query, onDateTimeChange }: IAnalyticsProps) => {
 
             <AnalyticsContext.Provider value={{ replay, spaghetti, oneHourAgo: oneHourAgo, currentDate: currentDate }}>
               {tab === 0 && (
-                <Card ref={heatMapRef}>
+                <Card ref={heatMapRef} style={{ padding: '1rem', margin: '1rem 0rem' }}>
                   <img src='/images/map.png' alt='map' onLoad={createHeatMap} />
                 </Card>
               )}
 
               {tab === 1 && <Replay />}
 
-              {tab === 2 && <SpaghettiMap heatMapPoint={heatmappoint}></SpaghettiMap>}
+              {tab === 2 && (
+                <Card style={{ padding: '1rem', margin: '1rem 0rem' }}>
+                  <SpaghettiMap heatMapPoint={heatmappoint} />
+                </Card>
+              )}
             </AnalyticsContext.Provider>
           </Grid>
         </Grid>

@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import AnalyticsContext from '@components/analytics/detailed'
 import { Canvas } from '@react-three/fiber'
-import { Bounds, OrthographicCamera, useTexture } from '@react-three/drei'
+import { Bounds, OrbitControls, OrthographicCamera, useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { Vector3 } from 'three'
 
@@ -45,6 +45,7 @@ export default function SpaghettiMap({ heatMapPoint }: { heatMapPoint: any }) {
                 <Canvas style={{ height: 500 }}>
                   <Suspense fallback={null}>
                     <OrthographicCamera position={[0, 0, 1]} zoom={800} makeDefault />
+                    <OrbitControls enableRotate={false} />
                     <Bounds clip>
                       <SpaghettiRender heatMapPoint={heatMapPoint} />
                     </Bounds>
@@ -72,12 +73,20 @@ const SpaghettiRender = ({ heatMapPoint }: { heatMapPoint: any }) => {
         <planeGeometry args={[1, 0.333]} />
         <meshStandardMaterial map={mapTexture} transparent side={THREE.DoubleSide} />
       </mesh>
-      {heatMapPoint.map((point, index) => {
-        if (heatMapPoint[index + 1] === undefined) return <></>
-        const nextPoint = heatMapPoint[index + 1]
+      <mesh position={[-0.5, 0, 0.1]}>
+        {heatMapPoint.map((point, index) => {
+          if (heatMapPoint[index + 1] === undefined) return <></>
+          const nextPoint = heatMapPoint[index + 1]
 
-        return <Line key={index} start={new Vector3(point[0] / 100, point[1] / 100, 0)} end={new Vector3(nextPoint[0] / 100, nextPoint[1] / 100, 0)} />
-      })}
+          return (
+            <Line
+              key={index}
+              start={new Vector3(point[0] / 100, point[1] / 100, 0)}
+              end={new Vector3(nextPoint[0] / 100, nextPoint[1] / 100, 0)}
+            />
+          )
+        })}
+      </mesh>
     </>
   )
 }
