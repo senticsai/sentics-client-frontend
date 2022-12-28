@@ -146,7 +146,7 @@ const AnalyticsResult = ({ query, onDateTimeChange }: IAnalyticsProps) => {
 
               {tab === 1 && <Replay />}
 
-              {tab === 2 && <SpaghettiMap></SpaghettiMap>}
+              {tab === 2 && <SpaghettiMap heatMapPoint={heatmappoint}></SpaghettiMap>}
             </AnalyticsContext.Provider>
           </Grid>
         </Grid>
